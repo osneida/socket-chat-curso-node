@@ -14,6 +14,8 @@ const btnSalir   = document.querySelector('#btnSalir');
 
 //validar el token localstoreage
 const validarJWT = async() => {
+    
+    let htmUsuario ='';
 
     const token = localStorage.getItem('token') || '';
     if( token.length <= 10) {
@@ -29,6 +31,21 @@ const validarJWT = async() => {
     usuario = userDB; //coloco los datos del usuario en la variable
     
     document.title = usuario.nombre;
+    const usuarioOnline = document.querySelector('#usuarioOnline')
+    
+    const imagen = "./assets/images/users/no-image.jpg"
+   // (usuario.img !=='') ? imagen = usuario.img : '';
+
+    htmUsuario = `
+    <li class="list-group">
+        <p>
+            <a data-id=${ usuario.uid } href="javascript:void(0)"><img src="${ usuario.img }" alt="user-img" class="img-fluid img-circle" width="40" height="40"> <span>${ usuario.nombre } <small class="text-success"></small></span></a>
+        </p>
+    </li>
+    `;
+
+    usuarioOnline.innerHTML= htmUsuario;
+
 
     await conectarSocket();
 }
@@ -66,7 +83,7 @@ const dibujarUsuarios = ( usuarios = []) =>{
 
     let usersHtml = '';
     usuarios.forEach( ({ nombre, uid, img="./assets/images/users/no-image.jpg" }) => {
-
+        if (usuario.nombre !== nombre) {
         usersHtml += `
             <li class="list-group">
                 <p>
@@ -74,47 +91,39 @@ const dibujarUsuarios = ( usuarios = []) =>{
                 </p>
             </li>
             `;
+        }
     })
 
     ulUsuarios.innerHTML = usersHtml;
 }
 
 const dibujarMensajes = ( mensajes = []) =>{
-
     let mensajesHtml = '';
-    mensajes.forEach( ({ nombre, img="./assets/images/users/no-image.jpg", mensaje, yo }) => {
-        //usuario.nombre, usuario.img, mensaje, true
+    mensajes.forEach( ({ nombre, mensaje }) => {
 
-        mensajesHtml += `
-            <li class="animated fadeIn">
-                <p>
-                    <span class="text-primary"> ${ nombre }: </span>
-                    <span> ${ mensaje } </span>
-                </p>
-            </li>
-            `;
-/*
-            if (yo) {
-                mensajesHtml += `<li class="reverse">
-                    <div class="chat-content">
-                    <h5> ${ nombre }</h5>
-                    <div class="box bg-light-inverse">${ mensaje }</div>
-                    </div>
-                    <div class="chat-img"><img src="${ img }" alt="user" /></div>
-                 </li> `;
-        
-            } else {
-        
-                mensajesHtml += `<li class="animated fadeIn">
+        if (usuario.nombre == nombre) {
+            mensajesHtml += `
+            <li class="reverse right" style="text-align: right;">
                 <div class="chat-content">
-                <h5>${ nombre }</h5>
-                <div class="box">${ mensaje }</div>
+                    <h6  class="bg-light-inverse"> ${ mensaje }</h6>
                 </div>
-                <div class="chat-img"><img src="${ img }" alt="user" /></div>
-                </li>`;
+            
+            </li> `;
+
+        } else {
+
+            mensajesHtml += `
+            <li class="otrosUsuarios bg-light-left">
+            <div class="chat-content">
+                
+                <div class="box">${ nombre }</div>
+                <h6>${ mensaje }</h6>
+            </div>
         
-            }*/
-        
+            </li>`;
+
+        } 
+
     })
 
     ulMensajes.innerHTML = mensajesHtml;
@@ -124,7 +133,7 @@ txtMensaje.addEventListener('keyup', ({ keyCode }) => {
     
     const mensaje = txtMensaje.value.trim();
     const uid     = txtUid.value;
-
+ 
     if( keyCode !== 13 ){ return; }
     if( mensaje.length === 0 ){ return; }
 

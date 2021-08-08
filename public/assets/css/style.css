@@ -8,6 +8,18 @@ body {
   color: #67757c;
   font-weight: 300; }
 
+
+.bg-light-inverse {
+  background-color: #d2ffc6; }
+
+  .bg-light-left{
+    background-color:white;
+  }
+
+.fondoMensajes{
+  background-color:#f7f5f3;
+}
+
 html {
   position: relative;
   min-height: 100%;
@@ -78,13 +90,15 @@ h5 {
 
   h6 {
 
-    font-size: 2px;
-    font-weight: 50; }
+    font-size: 14px;
+    font-weight: 500; 
+     padding: 10px;}
 
 
 
 .box {
   border-radius: 4px;
+  font-size: 10px;
   padding: 10px; }
 
 html body .dl {
@@ -194,3 +208,32 @@ html body .p-b-40 {
 .radius {
   border-radius: 4px; }
 
+  /* ============ */
+  /*  chat */
+  /* =========== */
+  li.reverse {
+    text-align: right; 
+    list-style: none;}
+     li.reverse .chat-time {
+      text-align: left; }
+     li.reverse .chat-content {
+      padding-left: 0px;
+      padding-right: 15px; }
+      ul.list-style-none {
+        margin: 0px;
+        padding: 0px; }
+
+        li.otrosUsuarios {
+          text-align: left; 
+          list-style: none;}
+
+
+        ul.list-style-none li {
+          list-style: none; }
+          ul.list-style-none li a {
+            color: #67757c;
+            padding: 8px 0px;
+            display: block;
+            text-decoration: none; }
+            ul.list-style-none li a:hover {
+              color: #398bf7; }
