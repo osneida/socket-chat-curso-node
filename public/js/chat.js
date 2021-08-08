@@ -52,7 +52,7 @@ const conectarSocket = async() => {
 
   socket.on('recibir-mensajes', dibujarMensajes );
   socket.on('usuarios-activos', dibujarUsuarios );
-
+ // socket.on('mensaje-privado',  dibujarMensajesPrivado );
  // socket.on('usuarios-activos', ( payload ) =>{
   //    console.log( payload);
 //  });
@@ -60,20 +60,17 @@ const conectarSocket = async() => {
     socket.on('mensaje-privado', ( payload ) => {
         console.log('Privado:', payload )
     });
-
-
 }
 
 const dibujarUsuarios = ( usuarios = []) =>{
 
     let usersHtml = '';
-    usuarios.forEach( ({ nombre, uid }) => {
+    usuarios.forEach( ({ nombre, uid, img="./assets/images/users/no-image.jpg" }) => {
 
         usersHtml += `
-            <li>
+            <li class="list-group">
                 <p>
-                    <h5 class="text-success"> ${ nombre } </h5>
-                    <span class="fs-6 text-muted"> ${ uid } </span>
+                    <a data-id=${ uid } href="javascript:void(0)"><img src="${ img }" alt="user-img" class="img-fluid img-circle" width="40" height="40"> <span>${ nombre } <small class="text-success"></small></span></a>
                 </p>
             </li>
             `;
@@ -85,16 +82,39 @@ const dibujarUsuarios = ( usuarios = []) =>{
 const dibujarMensajes = ( mensajes = []) =>{
 
     let mensajesHtml = '';
-    mensajes.forEach( ({ nombre, mensaje }) => {
+    mensajes.forEach( ({ nombre, img="./assets/images/users/no-image.jpg", mensaje, yo }) => {
+        //usuario.nombre, usuario.img, mensaje, true
 
         mensajesHtml += `
-            <li>
+            <li class="animated fadeIn">
                 <p>
                     <span class="text-primary"> ${ nombre }: </span>
                     <span> ${ mensaje } </span>
                 </p>
             </li>
             `;
+/*
+            if (yo) {
+                mensajesHtml += `<li class="reverse">
+                    <div class="chat-content">
+                    <h5> ${ nombre }</h5>
+                    <div class="box bg-light-inverse">${ mensaje }</div>
+                    </div>
+                    <div class="chat-img"><img src="${ img }" alt="user" /></div>
+                 </li> `;
+        
+            } else {
+        
+                mensajesHtml += `<li class="animated fadeIn">
+                <div class="chat-content">
+                <h5>${ nombre }</h5>
+                <div class="box">${ mensaje }</div>
+                </div>
+                <div class="chat-img"><img src="${ img }" alt="user" /></div>
+                </li>`;
+        
+            }*/
+        
     })
 
     ulMensajes.innerHTML = mensajesHtml;
@@ -112,7 +132,7 @@ txtMensaje.addEventListener('keyup', ({ keyCode }) => {
 
     txtMensaje.value = '';
 
-})
+});
 
 
 btnSalir.addEventListener('click', ()=> {
@@ -139,3 +159,14 @@ const main = async() => {
         main();
     });
 })();
+
+// Listeners
+
+ulUsuarios.addEventListener('click', ( ev ) => {
+    txtUid.value='';
+    const todoElemento   = ev.target.parentElement;  
+    const id = todoElemento.getAttribute('data-id');
+    if (id) {
+        txtUid.value=id;
+    }
+});
