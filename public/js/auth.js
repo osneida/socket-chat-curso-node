@@ -5,7 +5,7 @@
                     ? 'http://localhost:8080/api/auth/'
                     : 'https://osneida-chat-nodejs.herokuapp.com/api/auth/';
 
-                    
+
         miFormulario.addEventListener('submit', ev => {
             ev.preventDefault(); //evitar hacer un refresh de la pagina
 
