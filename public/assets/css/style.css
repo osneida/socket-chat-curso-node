@@ -20,6 +20,11 @@ body {
   background-color:#f7f5f3;
 }
 
+.servidor {
+   background-color:plum;
+   font-size: 8px;
+}
+
 html {
   position: relative;
   min-height: 100%;
@@ -89,12 +94,9 @@ h5 {
   font-weight: 400; }
 
   h6 {
-
     font-size: 14px;
     font-weight: 500; 
-     padding: 10px;}
-
-
+    padding: 10px;}
 
 .box {
   border-radius: 4px;

@@ -112,12 +112,13 @@ const dibujarMensajes = ( mensajes = []) =>{
 
         } else {
 
+            servidor = (nombre=='servidor') ? 'servidor' : ' ';
             mensajesHtml += `
             <li class="otrosUsuarios bg-light-left">
             <div class="chat-content">
                 
                 <div class="box">${ nombre }</div>
-                <h6>${ mensaje }</h6>
+                <h6 class="${ servidor }">${ mensaje }</h6>
             </div>
         
             </li>`;

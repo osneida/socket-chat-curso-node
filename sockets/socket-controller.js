@@ -20,7 +20,7 @@ const socketController = async( socket = new Socket(), io ) => { //io trae todos
         return socket.disconnect(); // sino existe en BD lo desconecto
    }
 
-   //agregar el usuario conectaro
+   //agregar el usuario conectado
    chatMensajes.conectarUsuario( usuario );
    io.emit('usuarios-activos', chatMensajes.usuariosArr );
    socket.emit('recibir-mensajes', chatMensajes.ultimos10 ); //esto es para que el nuevo usuario vea también los últimos 10 mensajes enviados
@@ -28,11 +28,18 @@ const socketController = async( socket = new Socket(), io ) => { //io trae todos
    //conectado a una sala especia con el uid del usuario que tiene en base de datos
    socket.join( usuario.id )  //se conecta a tres salas //una global, socket.id, usuario.id
 
-   //console.log( 'se conectó ', usuario.nombre )
+   console.log( 'se conectó ', usuario.nombre )
+   mensaje='se conectó ' + usuario.nombre;
+   chatMensajes.enviarMensaje( '', 'servidor', mensaje );
 
    //limpiar cuando el usuario se desconecta
    socket.on('disconnect', () =>{
         chatMensajes.desconectarUsuario( usuario.id );
+
+        console.log( 'se desconectó ', usuario.nombre )
+
+        mensaje='se desconectó ' + usuario.nombre;
+        chatMensajes.enviarMensaje( '', 'servidor', mensaje );
         io.emit('usuarios-activos', chatMensajes.usuariosArr );
    });
 
